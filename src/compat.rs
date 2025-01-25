@@ -1,7 +1,7 @@
 #[doc(hidden)]
 #[macro_export]
 macro_rules! __cut {
-   ($buf:expr, $i:expr, $j:expr) => {{
+   ($buf:expr, $i:expr, $j:expr$(,)?) => {{
       let buf: &_ = $buf;
       const I: usize = $i;
       const J: usize = $j;
@@ -18,7 +18,7 @@ pub use __cut as cut;
 #[doc(hidden)]
 #[macro_export]
 macro_rules! __cut_mut {
-   ($buf:expr, $i:expr, $j:expr) => {{
+   ($buf:expr, $i:expr, $j:expr$(,)?) => {{
       let buf: &mut _ = $buf;
       const I: usize = $i;
       const J: usize = $j;
