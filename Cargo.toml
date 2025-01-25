@@ -1,11 +1,12 @@
 [package]
 name = "popparoach"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["iriri"]
 edition = "2021"
 
 repository = "https://github.com/iriri/popparoach"
 license = "BSD-3-Clause"
-description = "Cut my life into pieces."
+description = "Cut my life into pieces"
 
-[dependencies]
+[features]
+nightly = []
