@@ -15,12 +15,12 @@ impl<T, const N: usize> Cut<T> for [T; N] {
 
    #[inline(always)]
    fn cut<const I: usize, const J: usize>(&self) -> &[T; J - I] {
-      unsafe { &*(self.as_ptr().add(I) as *const [T; J - I]) }
+      unsafe { &*(self.as_ptr().add(I) as *const _) }
    }
 
    #[inline(always)]
    fn cut_mut<const I: usize, const J: usize>(&mut self) -> &mut [T; J - I] {
-      unsafe { &mut *(self.as_mut_ptr().add(I) as *mut [T; J - I]) }
+      unsafe { &mut *(self.as_mut_ptr().add(I) as *mut _) }
    }
 }
 
@@ -37,7 +37,7 @@ impl<T> Cut<T> for [T] {
       if J > self.len() {
          panic_oob();
       }
-      unsafe { &*(self.as_ptr().add(I) as *const [T; J - I]) }
+      unsafe { &*(self.as_ptr().add(I) as *const _) }
    }
 
    #[inline]
@@ -45,7 +45,7 @@ impl<T> Cut<T> for [T] {
       if J > self.len() {
          panic_oob();
       }
-      unsafe { &mut *(self.as_mut_ptr().add(I) as *mut [T; J - I]) }
+      unsafe { &mut *(self.as_mut_ptr().add(I) as *mut _) }
    }
 }
 
@@ -57,14 +57,13 @@ pub trait CutAt<T, const N: usize> {
 impl<T, const N: usize> CutAt<T, N> for [T; N] {
    #[inline(always)]
    fn cut_at<const I: usize>(&self) -> (&[T; I], &[T; N - I]) {
-      let l = self.as_ptr() as *const [T; I];
-      unsafe { (&*l, &*(self.as_ptr().add(I) as *const [T; N - I])) }
+      unsafe { (&*(self.as_ptr() as *const _), &*(self.as_ptr().add(I) as *const _)) }
    }
 
    #[inline(always)]
    fn cut_at_mut<const I: usize>(&mut self) -> (&mut [T; I], &mut [T; N - I]) {
-      let l = self.as_mut_ptr() as *mut [T; I];
-      unsafe { (&mut *l, &mut *(self.as_mut_ptr().add(I) as *mut [T; N - I])) }
+      let p = self.as_mut_ptr();
+      unsafe { (&mut *(p as *mut _), &mut *(p.add(I) as *mut _)) }
    }
 }
 

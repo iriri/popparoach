@@ -2,12 +2,12 @@
 #[macro_export]
 macro_rules! __cut {
    ($buf:expr, $i:expr, $j:expr$(,)?) => {{
-      let buf: &_ = $buf;
+      let buf: &[_] = $buf;
       const I: usize = $i;
       const J: usize = $j;
       #[inline(always)]
       fn launder<T>(buf: &[T]) -> &[T; J - I] {
-         unsafe { &*(buf.as_ptr() as *const [T; J - I]) }
+         unsafe { &*(buf.as_ptr() as *const _) }
       }
       launder(&buf[I..J])
    }};
@@ -19,12 +19,12 @@ pub use __cut as cut;
 #[macro_export]
 macro_rules! __cut_mut {
    ($buf:expr, $i:expr, $j:expr$(,)?) => {{
-      let buf: &mut _ = $buf;
+      let buf: &mut [_] = $buf;
       const I: usize = $i;
       const J: usize = $j;
       #[inline(always)]
       const fn launder<T>(buf: &mut [T]) -> &mut [T; J - I] {
-         unsafe { &mut *(buf.as_mut_ptr() as *mut [T; J - I]) }
+         unsafe { &mut *(buf.as_mut_ptr() as *mut _) }
       }
       launder(&mut buf[I..J])
    }};

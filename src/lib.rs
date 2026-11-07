@@ -1,6 +1,6 @@
 //! # Examples
 //! ```rust,ignore
-//! # use popparoach::Cut;
+//! # use popparoach::CutAt;
 //! #
 //! # fn lol() {
 //! let xs = [0, 1, 2, 3];
